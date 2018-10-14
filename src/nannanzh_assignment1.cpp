@@ -27,6 +27,7 @@
 #include "../include/logger.h"
 #include "../include/server.h"
 #include "../include/utils.h"
+#include "../include/client.h"
 
 using namespace std;
 
@@ -61,7 +62,15 @@ int main(int argc, char **argv)
 		s.ServerListen(argv[2]);
 		s.CommandLoop();
 	} else if (strcmp(argv[1], "c") == 0) {
-		cout << "ClientInit();" << endl;
+		Client c;
+		if(!IsValidPort(argv[2])) {
+			cse4589_print_and_log("[%s:ERROR]\n", "PORT");
+			cse4589_print_and_log("The port is invalid.\n");
+			cse4589_print_and_log("[%s:END]\n", "PORT");
+			return 0;	
+		}
+		c.Setup(argv[2]);
+		c.CommandLoop();
 	} else {
 		cout << ("usage: ./assignment1 s/c port") << endl;
 		return 1;	
