@@ -14,6 +14,7 @@ using namespace std;
 class Client {
     private:
         std::string listen_port;
+        std::string ip_address;
         std::string hostname;
         struct sockaddr_storage their_addr;
         struct addrinfo hints, *res;
@@ -32,4 +33,5 @@ class Client {
         void Setup(string port_str);
         std::string PrintHostName();
         void PrintPort();
+        void getIPaddress();
 };

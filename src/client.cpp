@@ -23,20 +23,37 @@ void Client::PrintAuthor() {
 	cse4589_print_and_log("[%s:END]\n", command_str.c_str());
 }
 
-void Client::PrintIP() {
-	if ((he = gethostbyname(hostname.c_str())) == NULL) { // get the host info
-		herror("gethostbyname");
-		// return 2;
-	}
-	addr_list = (struct in_addr **)he->h_addr_list;
-	for(int i = 0; addr_list[i] != NULL; i++) {
-		std::cout << inet_ntoa(*addr_list[i]) << std::endl;
-	}
-}
-
 std::string Client::PrintHostName() {
 	return hostname;
 }
+
+void Client::getIPaddress() {
+ struct hostent *hend;
+ struct in_addr **addr_list;
+ char hostname[1024];
+ gethostname(hostname,1024); ///fills ip add
+ // cout << hostname << endl;
+
+ if ((hend = gethostbyname(hostname))== NULL) {  // get the host info
+  std::cout << "here" << std::endl;
+  herror("gethostbyname");
+ }
+
+ // save IP of this host:
+ addr_list = (struct in_addr **)hend->h_addr_list;
+ for(int i = 0; addr_list[i] != NULL; i++) {
+  ip_address = inet_ntoa(*addr_list[i]);
+ }
+}
+
+void Client::PrintIP() {
+	getIPaddress();
+	std::string command_str = "IP";
+	cse4589_print_and_log("[%s:SUCCESS]\n", command_str.c_str());
+	cse4589_print_and_log("PORT:%s\n", ip_address.c_str());
+	cse4589_print_and_log("[%s:END]\n", command_str.c_str());
+}
+
 
 void Client::PrintPort() {
 	std::string command_str = "PORT";

@@ -14,6 +14,7 @@ class Server {
     private:
         std::string listen_port;
         std::string hostname;
+        std::string ip_address;
         struct sockaddr_storage their_addr;
         struct addrinfo hints, *res;
         struct in_addr **addr_list;
@@ -33,4 +34,5 @@ class Server {
         void ServerListen(std::string port);
         std::string PrintHostName();
         void PrintPort();
+        void getIPaddress();
 };
